@@ -1,20 +1,23 @@
-package com.agolovachev.fandroidvktest;
+package com.agolovachev.fandroidvktest.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.agolovachev.fandroidvktest.CurrentUser;
+import com.agolovachev.fandroidvktest.MyApplication;
+import com.agolovachev.fandroidvktest.R;
 import com.agolovachev.fandroidvktest.consts.ApiConstants;
 import com.agolovachev.fandroidvktest.mvp.presenter.MainPresenter;
 import com.agolovachev.fandroidvktest.mvp.view.MainView;
-import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.agolovachev.fandroidvktest.ui.fragment.NewsFeedFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKError;
 
-public class MainActivity extends MvpAppCompatActivity implements MainView {
+public class MainActivity extends BaseActivity implements MainView {
 
     @InjectPresenter
     MainPresenter mPresenter;
@@ -22,9 +25,15 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        MyApplication.getApplicationComponent().inject(this);
 
         mPresenter.checkAuth();
+    }
+
+    @Override
+    protected int getMainContentLayout() {
+        return R.layout.activity_main;
     }
 
     @Override
@@ -53,5 +62,6 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     @Override
     public void signedIn() {
         Toast.makeText(this, "Current user id: " + CurrentUser.getId(), Toast.LENGTH_LONG).show();
+        setContent(new NewsFeedFragment());
     }
 }
