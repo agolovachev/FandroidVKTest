@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">FandroidVKTest</string>
+
+    <integer name="com_vk_sdk_AppId">6449723</integer>
+</resources>
